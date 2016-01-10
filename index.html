@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>Temporary File Upload API</title>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+  </head>
+  <body>
+      <div class="container">
+      <h2>Temporary File Upload API instructions:</h2>
+          <hr />
+          <h3>The query</h3>
+          <p>Send a POST request (with enctype="multipart/form-data") to <i>/upload</i> with <i>file</i> parameter set to the file you would like to temporarily store. </p>
+      <hr />
+          <h3>The response</h3>
+          <p>If you get back {"success":false}, something went wrong.</p>
+          <p>Otherwise, you will get a JSON object, check the <em>name</em> value for the ID that has been assigned to the image.</p>
+          <p>You can "download" or get the image with <em>/download/{name}</em> where <i>{name}</i> is the value you got earlier.</p>
+          <p><b>The image will be deleted after 30 seconds. </b></p>
+      <hr />
+      <h2>API example:</h2>
+          <br /> 
+      <form id="uploadForm"
+          enctype="multipart/form-data"
+          action="/api/photo"
+          method="post">
+      <input type="file" name="image" /> <br />
+      <input type="submit" value="Upload Image" name="submit">
+      <span id = "status"></span>
+    </form>
+          </div>
+  </body>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+  <script>
+  $(document).ready(function() {
+
+     $('#uploadForm').submit(function() {
+		 $("#status").empty().text("File is uploading...");
+
+        $(this).ajaxSubmit({
+
+            error: function(xhr) {
+		            status('Error: ' + xhr.status);
+            },
+
+            success: function(response) {
+					console.log(response)
+					$("#status").empty().text("Response: " + response);
+            }
+	});
+
+	return false;
+    });    
+});
+  </script>
+</html>
