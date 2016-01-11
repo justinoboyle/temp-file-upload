@@ -38,7 +38,6 @@ app.use('/download', express.static('uploads'));
 
 GLOBAL.del = function(imgName) {
     fs.unlinkSync(__dirname + "/uploads/" + imgName);
-    console.log("Deleted.");
 }
 
 app.post('/upload', function(req, res) {
